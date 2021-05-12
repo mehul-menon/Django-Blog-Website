@@ -8,12 +8,12 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 
-def save():
-    super().save()
-    # resizing image
-    img=Image.open(self.image.path)
+    def save(self):
+      super().save()
+       # resizing image
+      img=Image.open(self.image.path)
     # now set standards to scale up/down the image if they are larger/smaller
-    if img.height>300 or img.width>300:
+      if img.height>300 or img.width>300:
         output_size=(300,300)
         img.thumbnail(output_size)
         img.save(self.image.path)

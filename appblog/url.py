@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostListView,PostDetailView,PostListView,PostCreateView,PostUpdateView,PostDeleteView,UserPostListView
+from .views import PostListView,PostDetailView,PostListView,PostCreateView,PostUpdateView,PostDeleteView,UserPostListView,LikeView
 from . import views
 # . refers to home directory
 # we add variables to url to toggle between posts. pk means primary key
@@ -10,5 +10,6 @@ urlpatterns = [
     path('post/<int:pk>/', PostDetailView.as_view(),name='post-detail'),
     path('post/new/', PostCreateView.as_view(),name='post-create'),
     path('post/<int:pk>/update/', PostUpdateView.as_view(),name='post-update'),
-    path('post/<int:pk>/delete/', PostDeleteView.as_view(),name='post-delete'),path('about/', views.about_page,name='About')
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(),name='post-delete'),path('about/', views.about_page,name='About'),
+    path('like/<int:pk>/', LikeView,name='like_post')
 ]
