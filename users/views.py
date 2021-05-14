@@ -1,3 +1,4 @@
+  
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -35,4 +36,10 @@ def profile(request):
         'p_form': p_form
     }
     return render(request,'users/profile.html')
+    
+  
+ 
+
+    
+
 

@@ -18,6 +18,17 @@
                   {% csrf_token %}
                   <button type="submit" name="post_id" value= "{{ post.id }}" class="btn btn-primary btn-sm" >Like</button>-{{ total_likes }} likes
                 </form>
+                <h2>Comments..</h2>
+                {% if not post.comments.all %}
+                  No Comments Yet <br/><a href="{% url 'add_comment' post.pk %}">New Comment</a>
+                {% else %}
+                <a href="{% url 'add_comment' post.pk %}">Add Comment<br/></a>
+                 {% for comment in post.comments.all %}
+                 <strong>{{ comment.name }}-{{ comment.date_added }}</strong>
+                 <br/> 
+                  {{ comment.body }}<br/>
+                  {% endfor %}
+                 {% endif %}
               </div>
             </article>
 {% endblock content %}  

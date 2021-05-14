@@ -1,11 +1,12 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.models import User
-from django.urls.base import reverse
+from django.urls.base import reverse,reverse_lazy
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView # to see details of every post
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin # since we cant use login required decorator on classes
 from django.http import HttpResponseRedirect
-from .models import Post
+from .models import Post,Comment
+from .forms import CommentForm
 # http response import removed
 # enter dummy lists and dictionaries to simulate a continuously changing template
 
@@ -45,6 +46,7 @@ class PostDetailView(DetailView):
          total_likes=stuff.total_likes()#calls function in models.py
          context["total_likes"]=total_likes
          return context
+    
 
 class PostCreateView(LoginRequiredMixin,CreateView):
      model=Post
@@ -56,6 +58,15 @@ class PostCreateView(LoginRequiredMixin,CreateView):
          form.instance.author=self.request.user
          return super().form_valid(form)
 # order of arguments is important here
+class AddCommentView(CreateView):
+     model=Comment
+     form_class=CommentForm
+     #fields='__all__'
+     template_name="blog/add_comment.html"# here instead of normal syntax they expect model name as we will also create update form
+     def form_valid(self,form):
+         form.instance.post_id=self.kwargs['pk']
+         return super().form_valid(form)
+     success_url=reverse_lazy('blog-home')
 class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
      model=Post
      fields=['title','content']
